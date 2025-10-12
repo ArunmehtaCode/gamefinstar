@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Blitz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="start-screen">
+        <h1>Budget Blitz</h1>
+        <p>Drag the expenses to the correct buckets (Needs, Wants, Savings) to score points.</p>
+        <button id="start-button">Start Game</button>
+    </div>
+    <div id="end-screen" style="display: none;">
+        <h1>Game Over</h1>
+        <p>Your final score is: <span id="final-score">0</span></p>
+        <button id="restart-button">Restart Game</button>
+    </div>
+    <div id="game-container" style="display: none;">
+        <div id="message-container"></div>
+        <div id="score-container">
+            <h2>Score: <span id="score">0</span></h2>
+            <h2>Level: <span id="level">1</span></h2>
+        </div>
+        <div id="game-area"></div>
+        <div id="buckets-container">
+            <div class="bucket" id="needs-bucket">
+                <h2>Needs</h2>
+            </div>
+            <div class="bucket" id="wants-bucket">
+                <h2>Wants</h2>
+            </div>
+            <div class="bucket" id="savings-bucket">
+                <h2>Savings</h2>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
