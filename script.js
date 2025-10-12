@@ -13,6 +13,14 @@ let level = 1;
 let gameSpeed = 2000;
 let gameInterval;
 
+const scoreThresholds = [
+    { score: 30, message: "Amazing!" },
+    { score: 50, message: "Fast Reactor!" },
+    { score: 70, message: "Keep it up!" },
+    { score: 100, message: "Budget Master!" }
+];
+let triggeredThresholds = {};
+
 const expenses = [
     // Needs
     { name: "Rent", category: "Needs" },
@@ -97,12 +105,31 @@ const expenses = [
 startButton.addEventListener('click', startGame);
 restartButton.addEventListener('click', startGame);
 
+const midGamePopup = document.getElementById('mid-game-popup');
+const popupMessage = document.getElementById('popup-message');
+
+function displayMidGamePopup(message) {
+    popupMessage.textContent = message;
+    midGamePopup.style.display = 'block';
+    midGamePopup.classList.add('popup-active');
+
+    setTimeout(() => {
+        midGamePopup.classList.remove('popup-active');
+        midGamePopup.classList.add('popup-exiting');
+        setTimeout(() => {
+            midGamePopup.classList.remove('popup-exiting');
+            midGamePopup.style.display = 'none';
+        }, 800); // Match popup-rope-exit animation duration
+    }, 1500); // Display for 1.5 seconds (before exit starts)
+}
+
 function startGame() {
     score = 0;
     level = 1;
     gameSpeed = 2000;
     scoreDisplay.textContent = score;
     levelDisplay.textContent = level;
+    triggeredThresholds = {}; // Reset for new game
 
     startScreen.style.display = 'none';
     endScreen.style.display = 'none';
@@ -124,8 +151,15 @@ function gameLoop() {
     if (gameSpeed > 500) {
         gameSpeed -= 25;
     }
-    level = Math.floor((2000 - gameSpeed) / 150) + 1;
-    levelDisplay.textContent = level;
+    const newLevel = Math.floor((2000 - gameSpeed) / 150) + 1;
+    if (newLevel !== level) {
+        level = newLevel;
+        levelDisplay.textContent = level;
+        levelDisplay.classList.add('pulse-animation');
+        setTimeout(() => {
+            levelDisplay.classList.remove('pulse-animation');
+        }, 400);
+    }
     gameInterval = setTimeout(gameLoop, gameSpeed);
 }
 
@@ -224,8 +258,6 @@ function makeDraggable(element, fallInterval) {
         const droppedBucket = getDroppedBucket(element);
         if (droppedBucket) {
             handleDrop(element, droppedBucket);
-        } else {
-            endGame();
         }
         if (gameArea.contains(element)) {
             gameArea.removeChild(element);
@@ -278,24 +310,15 @@ function updateScore(change) {
     scoreDisplay.classList.add('pulse-animation');
     setTimeout(() => {
         scoreDisplay.classList.remove('pulse-animation');
-    }, 400); // Match animation duration
-}
+    }, 400);
 
-function gameLoop() {
-    createExpense();
-    if (gameSpeed > 500) {
-        gameSpeed -= 25;
-    }
-    const newLevel = Math.floor((2000 - gameSpeed) / 150) + 1;
-    if (newLevel !== level) {
-        level = newLevel;
-        levelDisplay.textContent = level;
-        levelDisplay.classList.add('pulse-animation');
-        setTimeout(() => {
-            levelDisplay.classList.remove('pulse-animation');
-        }, 400); // Match animation duration
-    }
-    gameInterval = setTimeout(gameLoop, gameSpeed);
+    // Check for score thresholds
+    scoreThresholds.forEach(threshold => {
+        if (score >= threshold.score && !triggeredThresholds[threshold.score]) {
+            displayMidGamePopup(threshold.message);
+            triggeredThresholds[threshold.score] = true;
+        }
+    });
 }
 
 function endGame() {

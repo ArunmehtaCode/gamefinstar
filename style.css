@@ -201,6 +201,72 @@ body {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
 }
 
+#mid-game-popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Base transform for centering */
+    background: linear-gradient(45deg, rgba(99, 230, 190, 0.95), rgba(116, 143, 252, 0.95)); /* Gradient background */
+    color: var(--primary-color);
+    padding: 25px 50px;
+    border-radius: 20px;
+    font-size: 2.8em;
+    font-weight: 800;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    opacity: 0;
+    letter-spacing: 1px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    display: none; /* Hidden by default */
+    transform-origin: center top; /* Pivot point for rope effect */
+}
+
+#mid-game-popup.popup-active {
+    display: block;
+    animation: popup-rope-entry 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; /* Bouncy entry with rope effect */
+}
+
+#mid-game-popup.popup-exiting {
+    animation: popup-rope-exit 0.8s ease-in forwards;
+}
+
+@keyframes popup-rope-entry {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -150%) rotate(10deg); /* Start high, rotated */
+    }
+    40% {
+        opacity: 1;
+        transform: translate(-50%, -40%) rotate(-8deg); /* Fall down, overshoot */
+    }
+    70% {
+        transform: translate(-50%, -55%) rotate(5deg); /* Bounce up slightly */
+    }
+    85% {
+        transform: translate(-50%, -48%) rotate(-3deg); /* Settle */
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) rotate(0deg); /* Final position */
+    }
+}
+
+@keyframes popup-rope-exit {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    30% {
+        transform: translate(-50%, -55%) rotate(-5deg); /* Start ascent with slight wobble */
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -150%) rotate(10deg); /* Go back up, rotated */
+    }
+}
+
+
 @keyframes fall {
     0% { transform: translateY(-100px) rotate(-10deg); opacity: 0; }
     100% { transform: translateY(0) rotate(0deg); opacity: 1; }
