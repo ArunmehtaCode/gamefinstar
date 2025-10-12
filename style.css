@@ -1,34 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+    --primary-color: #667eea;
+    --secondary-color: #764ba2;
+    --needs-color: #ff6b6b;
+    --wants-color: #63e6be;
+    --savings-color: #9775fa;
+    --text-color: #ffffff;
+    --bg-color: #f1f3f5;
+    --dark-text: #333;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: var(--text-color);
+}
+
 #start-screen, #end-screen {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
+    padding: 40px;
+    border-radius: 20px;
     text-align: center;
+    z-index: 10;
 }
 
 #start-screen h1, #end-screen h1 {
     margin-top: 0;
+    font-size: 3em;
+    font-weight: 700;
 }
 
-#start-screen button, #end-screen button {
-    padding: 10px 20px;
-    font-size: 1em;
+#start-screen p, #end-screen p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+}
+
+#start-button, #restart-button {
+    padding: 15px 30px;
+    font-size: 1.2em;
+    font-weight: 600;
     cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--wants-color);
+    color: var(--dark-text);
+    transition: transform 0.2s ease;
 }
 
-
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+#start-button:hover, #restart-button:hover {
+    transform: scale(1.1);
 }
 
 #game-container {
@@ -42,8 +72,11 @@ body {
 }
 
 #score-container {
+    display: flex;
+    justify-content: space-around;
     margin-bottom: 20px;
-    color: white;
+    font-size: 1.5em;
+    font-weight: 600;
 }
 
 #game-area {
@@ -66,13 +99,13 @@ body {
     width: 30%;
     height: 120px;
     border: none;
-    border-radius: 10px;
+    border-radius: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.5em;
-    color: white;
-    font-weight: bold;
+    font-size: 1.8em;
+    font-weight: 700;
+    color: var(--text-color);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     transition: transform 0.2s ease;
 }
@@ -81,31 +114,24 @@ body {
     transform: scale(1.05);
 }
 
-#needs-bucket { background: linear-gradient(45deg, #ff6b6b, #f06595); }
-#wants-bucket { background: linear-gradient(45deg, #63e6be, #20c997); }
-#savings-bucket { background: linear-gradient(45deg, #9775fa, #748ffc); }
+#needs-bucket { background: linear-gradient(45deg, var(--needs-color), #f06595); }
+#wants-bucket { background: linear-gradient(45deg, var(--wants-color), #20c997); }
+#savings-bucket { background: linear-gradient(45deg, var(--savings-color), #748ffc); }
 
 #message-container {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: white;
-    font-size: 2em;
-    font-weight: bold;
+    font-size: 3em;
+    font-weight: 700;
     animation: fade-in-out 2s forwards;
+    -webkit-text-stroke: 1px black;
 }
 
 @keyframes fade-in-out {
-    0% {
-        opacity: 0;
-    }
-    50% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
+    0%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 
 .expense {
@@ -113,57 +139,175 @@ body {
     padding: 15px 25px;
     border: none;
     border-radius: 10px;
-    background-color: #f1f3f5;
+    background-color: var(--bg-color);
     cursor: grab;
     user-select: none;
-    font-weight: bold;
-    color: #333;
+    font-weight: 600;
+    color: var(--dark-text);
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
-    animation: swoop 1s ease-out forwards;
+    animation: fall 1s ease-in-out, wobble 2s ease-in-out infinite;
 }
 
 .expense.dragging {
-    opacity: 0.5;
+    opacity: 0.7;
+    transform: scale(1.1);
 }
 
-.panda {
-    background-color: white;
-    border: 3px solid black;
-    border-radius: 50%;
-}
-
-.monkey {
-    background-color: #966919;
-    border-radius: 10px;
-}
-
-.cow {
-    width: 0;
-    height: 0;
-    border-left: 40px solid transparent;
-    border-right: 40px solid transparent;
-    border-bottom: 80px solid #d3b8ae;
-}
-
-@keyframes swoop {
-    0% {
-        transform: translateY(-100px) rotate(-45deg);
-        opacity: 0;
-    }
-    100% {
-        transform: translateY(0) rotate(0);
-        opacity: 1;
-    }
+@keyframes fall {
+    0% { transform: translateY(-100px) rotate(-15deg); }
+    100% { transform: translateY(0) rotate(0); }
 }
 
 @keyframes wobble {
-    0%, 100% {
-        transform: rotate(0deg);
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(3deg); }
+    75% { transform: rotate(-3deg); }
+}
+
+/* Character Animation */
+.character-container {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: 100px;
+    height: 100px;
+}
+
+.panda {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    background: #fff;
+    border: 3px solid #000;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.panda::before, .panda::after {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: #000;
+    border-radius: 50%;
+    top: 10px;
+}
+
+.panda::before {
+    left: 10px;
+}
+
+.panda::after {
+    right: 10px;
+}
+
+.panda .eyes {
+    position: relative;
+    top: 30px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.panda .eye {
+    width: 15px;
+    height: 15px;
+    background: #000;
+    border-radius: 50%;
+}
+
+.panda .nose {
+    position: absolute;
+    width: 10px;
+    height: 8px;
+    background: #000;
+    border-radius: 50%;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.panda.cheer {
+    animation: cheer-dance 0.5s infinite;
+}
+
+.panda.sad {
+    transform: rotate(-15deg) translateY(10px);
+}
+
+@keyframes cheer-dance {
+    0%, 100% { transform: translateY(0) rotate(0); }
+    50% { transform: translateY(-10px) rotate(5deg); }
+}
+
+/* Game Over Animations */
+#end-screen .firework {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background-color: #fff;
+    border-radius: 50%;
+    animation: firework-explode 1s ease-out forwards;
+}
+
+@keyframes firework-explode {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(30); opacity: 0; }
+}
+
+/* Power-ups */
+#power-ups-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.power-up-button {
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    margin: 0 10px;
+    transition: transform 0.2s ease;
+}
+
+.power-up-button:hover {
+    transform: scale(1.1);
+}
+
+#slow-time-power-up {
+    background-color: #feca57;
+    color: var(--dark-text);
+}
+
+#auto-sort-power-up {
+    background-color: #48dbfb;
+    color: var(--dark-text);
+}
+
+#double-points-power-up {
+    background-color: #ff9f43;
+    color: var(--dark-text);
+}
+
+.power-up-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
     }
-    25% {
-        transform: rotate(5deg);
+    40% {
+        transform: translateY(-30px);
     }
-    75% {
-        transform: rotate(-5deg);
+    60% {
+        transform: translateY(-15px);
     }
+}
+
+.bucket.bounce {
+    animation: bounce 1s ease;
 }
