@@ -1,14 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
 :root {
-    --primary-color: #667eea;
-    --secondary-color: #764ba2;
-    --needs-color: #ff6b6b;
-    --wants-color: #63e6be;
-    --savings-color: #9775fa;
-    --text-color: #ffffff;
-    --bg-color: #f1f3f5;
-    --dark-text: #333;
+    --primary-color: #1a1a2e; /* Darker primary */
+    --secondary-color: #16213e; /* Darker secondary */
+    --needs-color: #ff6b6b; /* Vibrant red */
+    --wants-color: #63e6be; /* Vibrant teal */
+    --savings-color: #9775fa; /* Vibrant purple */
+    --text-color: #e0e0e0; /* Light gray for text */
+    --bg-color: #24243e; /* Dark background for elements */
+    --dark-text: #e0e0e0; /* Light text on dark elements */
+    --shadow-color: rgba(0, 0, 0, 0.4);
 }
 
 body {
@@ -20,6 +21,7 @@ body {
     margin: 0;
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     color: var(--text-color);
+    overflow: hidden; /* Prevent scrollbars from animations */
 }
 
 #start-screen, #end-screen {
@@ -27,111 +29,154 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.8);
     padding: 40px;
     border-radius: 20px;
     text-align: center;
     z-index: 10;
+    box-shadow: 0 15px 40px var(--shadow-color);
+    animation: fadeIn 0.8s ease-out forwards;
 }
 
 #start-screen h1, #end-screen h1 {
     margin-top: 0;
-    font-size: 3em;
+    font-size: 3.2em;
     font-weight: 700;
+    color: var(--wants-color);
 }
 
 #start-screen p, #end-screen p {
     font-size: 1.2em;
     margin-bottom: 30px;
+    color: var(--text-color);
 }
 
 #start-button, #restart-button {
-    padding: 15px 30px;
-    font-size: 1.2em;
+    padding: 15px 35px;
+    font-size: 1.3em;
     font-weight: 600;
     cursor: pointer;
     border: none;
     border-radius: 10px;
     background-color: var(--wants-color);
-    color: var(--dark-text);
-    transition: transform 0.2s ease;
+    color: var(--primary-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 #start-button:hover, #restart-button:hover {
-    transform: scale(1.1);
+    transform: scale(1.08);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
 }
 
 #game-container {
     width: 90%;
-    max-width: 800px;
-    background-color: rgba(255, 255, 255, 0.1);
+    max-width: 850px;
+    background-color: rgba(255, 255, 255, 0.08);
     border-radius: 20px;
     padding: 30px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 15px 40px var(--shadow-color);
     text-align: center;
+    display: none; /* Hidden by default, shown by JS */
 }
 
 #score-container {
     display: flex;
     justify-content: space-around;
-    margin-bottom: 20px;
-    font-size: 1.5em;
+    margin-bottom: 25px;
+    font-size: 1.6em;
     font-weight: 600;
+    color: var(--text-color);
+}
+
+#score, #level {
+    transition: transform 0.2s ease-out;
+}
+
+.pulse-animation {
+    animation: pulse 0.4s ease-out;
 }
 
 #game-area {
     width: 100%;
-    height: 500px;
-    border: none;
+    height: 550px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
     position: relative;
     overflow: hidden;
-    background-image: url('https://www.transparenttextures.com/patterns/asfalt-light.png');
-    border-radius: 10px;
+    background-image: url('https://www.transparenttextures.com/patterns/dark-denim.png'); /* Darker texture */
+    background-color: #1e1e2f;
+    border-radius: 15px;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
 #buckets-container {
     display: flex;
     justify-content: space-around;
-    margin-top: 20px;
+    margin-top: 25px;
 }
 
 .bucket {
     width: 30%;
-    height: 120px;
+    height: 130px;
     border: none;
     border-radius: 15px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 1.8em;
+    font-size: 1.6em;
     font-weight: 700;
     color: var(--text-color);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s ease;
+    box-shadow: 0 8px 25px var(--shadow-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.bucket::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    z-index: 1;
+    pointer-events: none;
 }
 
 .bucket:hover {
-    transform: scale(1.05);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
 }
 
-#needs-bucket { background: linear-gradient(45deg, var(--needs-color), #f06595); }
-#wants-bucket { background: linear-gradient(45deg, var(--wants-color), #20c997); }
-#savings-bucket { background: linear-gradient(45deg, var(--savings-color), #748ffc); }
+.bucket span {
+    position: relative;
+    z-index: 2;
+}
+
+#needs-bucket { background: linear-gradient(45deg, var(--needs-color), #e74c3c); }
+#wants-bucket { background: linear-gradient(45deg, var(--wants-color), #2ecc71); }
+#savings-bucket { background: linear-gradient(45deg, var(--savings-color), #8e44ad); }
 
 #message-container {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 3em;
+    font-size: 3.5em;
     font-weight: 700;
+    color: var(--wants-color);
+    text-shadow: 0 0 15px rgba(99, 230, 190, 0.7);
     animation: fade-in-out 2s forwards;
-    -webkit-text-stroke: 1px black;
+    z-index: 100;
 }
 
 @keyframes fade-in-out {
-    0%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
-    50% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+    20% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(1.2); }
 }
 
 .expense {
@@ -144,21 +189,95 @@ body {
     user-select: none;
     font-weight: 600;
     color: var(--dark-text);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
-    animation: fall 1s ease-in-out, wobble 2s ease-in-out infinite;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease; /* Added transform for drag */
+    animation: fall 0.8s ease-out forwards, wobble 2s ease-in-out infinite;
+    z-index: 5;
 }
 
 .expense.dragging {
-    opacity: 0.7;
+    opacity: 0.8;
+    transform: scale(1.05) rotate(5deg); /* Slight scale and rotate when dragging */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
 }
 
 @keyframes fall {
-    0% { transform: translateY(-100px) rotate(-15deg); }
-    100% { transform: translateY(0) rotate(0); }
+    0% { transform: translateY(-100px) rotate(-10deg); opacity: 0; }
+    100% { transform: translateY(0) rotate(0deg); opacity: 1; }
 }
 
 @keyframes wobble {
     0%, 100% { transform: rotate(0deg); }
-    25% { transform: rotate(3deg); }
-    75% { transform: rotate(-3deg); }
+    25% { transform: rotate(2deg); }
+    75% { transform: rotate(-2deg); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #start-screen h1, #end-screen h1 {
+        font-size: 2.5em;
+    }
+    #start-screen p, #end-screen p {
+        font-size: 1em;
+    }
+    #start-button, #restart-button {
+        padding: 12px 25px;
+        font-size: 1.1em;
+    }
+    #game-container {
+        padding: 20px;
+    }
+    #score-container {
+        font-size: 1.2em;
+    }
+    #game-area {
+        height: 400px;
+    }
+    .bucket {
+        height: 100px;
+        font-size: 1.4em;
+    }
+    .expense {
+        padding: 10px 15px;
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 480px) {
+    #start-screen, #end-screen {
+        padding: 20px;
+        width: 90%;
+    }
+    #start-screen h1, #end-screen h1 {
+        font-size: 2em;
+    }
+    #start-screen p, #end-screen p {
+        font-size: 0.9em;
+    }
+    #start-button, #restart-button {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+    #game-area {
+        height: 300px;
+    }
+    .bucket {
+        height: 80px;
+        font-size: 1.2em;
+    }
+    .expense {
+        padding: 8px 12px;
+        font-size: 0.8em;
+    }
 }

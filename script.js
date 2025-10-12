@@ -275,6 +275,27 @@ function handleDrop(element, droppedBucket) {
 function updateScore(change) {
     score += change;
     scoreDisplay.textContent = score;
+    scoreDisplay.classList.add('pulse-animation');
+    setTimeout(() => {
+        scoreDisplay.classList.remove('pulse-animation');
+    }, 400); // Match animation duration
+}
+
+function gameLoop() {
+    createExpense();
+    if (gameSpeed > 500) {
+        gameSpeed -= 25;
+    }
+    const newLevel = Math.floor((2000 - gameSpeed) / 150) + 1;
+    if (newLevel !== level) {
+        level = newLevel;
+        levelDisplay.textContent = level;
+        levelDisplay.classList.add('pulse-animation');
+        setTimeout(() => {
+            levelDisplay.classList.remove('pulse-animation');
+        }, 400); // Match animation duration
+    }
+    gameInterval = setTimeout(gameLoop, gameSpeed);
 }
 
 function endGame() {
