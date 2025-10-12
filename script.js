@@ -107,6 +107,16 @@ restartButton.addEventListener('click', startGame);
 
 const midGamePopup = document.getElementById('mid-game-popup');
 const popupMessage = document.getElementById('popup-message');
+const pandaElement = document.querySelector('.panda');
+
+function animatePanda(animationClass) {
+    if (pandaElement) {
+        pandaElement.classList.add(animationClass);
+        setTimeout(() => {
+            pandaElement.classList.remove(animationClass);
+        }, 600); // Match animation duration
+    }
+}
 
 function displayMidGamePopup(message) {
     popupMessage.textContent = message;
@@ -258,10 +268,16 @@ function makeDraggable(element, fallInterval) {
         const droppedBucket = getDroppedBucket(element);
         if (droppedBucket) {
             handleDrop(element, droppedBucket);
+        } else {
+            endGame();
         }
-        if (gameArea.contains(element)) {
-            gameArea.removeChild(element);
-        }
+        // Apply bounce animation before removing
+        element.classList.add('bounce-on-hit');
+        setTimeout(() => {
+            if (gameArea.contains(element)) {
+                gameArea.removeChild(element);
+            }
+        }, 300); // Match bounce animation duration
     }
 }
 
@@ -298,9 +314,11 @@ function handleDrop(element, droppedBucket) {
     if (bucketId === correctBucketId) {
         // Correct drop
         updateScore(10);
+        animatePanda('cheer');
     } else {
         // Incorrect drop
         endGame();
+        animatePanda('surprise');
     }
 }
 

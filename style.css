@@ -45,6 +45,22 @@ body {
     color: var(--wants-color);
 }
 
+#start-screen-panda {
+    max-width: 150px; /* Adjust size as needed */
+    height: auto;
+    margin-bottom: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease;
+}
+
+#start-screen-panda:hover {
+    transform: scale(1.05) rotate(-3deg);
+}
+
 #start-screen p, #end-screen p {
     font-size: 1.2em;
     margin-bottom: 30px;
@@ -199,6 +215,113 @@ body {
     opacity: 0.8;
     transform: scale(1.05) rotate(5deg); /* Slight scale and rotate when dragging */
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+/* Character Container */
+.character-container {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 120px;
+    z-index: 10;
+}
+
+/* Panda Character */
+.panda {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    background-color: #fff;
+    border-radius: 50%;
+    border: 2px solid #333;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.panda::before, .panda::after { /* Ears */
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background-color: #333;
+    border-radius: 50%;
+    top: -15px;
+    z-index: -1;
+}
+
+.panda::before { left: -10px; }
+.panda::after { right: -10px; }
+
+.eyes {
+    position: absolute;
+    top: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.eye {
+    width: 20px;
+    height: 20px;
+    background-color: #333;
+    border-radius: 50%;
+    margin: 0 5px;
+    position: relative;
+}
+
+.eye::before { /* Pupils */
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: #fff;
+    border-radius: 50%;
+    top: 6px;
+    left: 6px;
+}
+
+.nose {
+    position: absolute;
+    width: 20px;
+    height: 15px;
+    background-color: #333;
+    border-radius: 50%;
+    top: 55px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Panda Animations */
+.panda.cheer {
+    animation: panda-cheer 0.6s ease-out;
+}
+
+@keyframes panda-cheer {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1) translateY(-10px); }
+    100% { transform: scale(1); }
+}
+
+.panda.surprise {
+    animation: panda-surprise 0.5s ease-out;
+}
+
+@keyframes panda-surprise {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05) translateY(-5px); }
+    100% { transform: scale(1); }
+}
+
+/* Falling item bounce animation */
+.expense.bounce-on-hit {
+    animation: bounce-on-hit 0.3s ease-out;
+}
+
+@keyframes bounce-on-hit {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
 }
 
 #mid-game-popup {
