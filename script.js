@@ -123,20 +123,25 @@ function createExpense() {
 }
 
 function makeDraggable(element, fallInterval) {
-    let offsetX, offsetY;
+    let offsetX, offsetY, clientX, clientY, isDragging = false, animationFrame;
 
     element.addEventListener('mousedown', dragStart);
-    element.addEventListener('touchstart', dragStart);
+    element.addEventListener('touchstart', dragStart, { passive: false });
 
     function dragStart(e) {
+        e.preventDefault();
         clearInterval(fallInterval);
         element.classList.add('dragging');
+        isDragging = true;
 
-        const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
-        const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+        clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+        clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
 
-        offsetX = clientX - element.getBoundingClientRect().left;
-        offsetY = clientY - element.getBoundingClientRect().top;
+        const rect = element.getBoundingClientRect();
+        offsetX = clientX - rect.left;
+        offsetY = clientY - rect.top;
+
+        animationFrame = requestAnimationFrame(animation);
 
         if (e.type === 'mousedown') {
             document.addEventListener('mousemove', dragMove);
@@ -148,14 +153,24 @@ function makeDraggable(element, fallInterval) {
     }
 
     function dragMove(e) {
-        const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
-        const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
-
-        element.style.left = `${clientX - gameArea.getBoundingClientRect().left - offsetX}px`;
-        element.style.top = `${clientY - gameArea.getBoundingClientRect().top - offsetY}px`;
+        if (isDragging) {
+            clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+            clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+        }
+    }
+    
+    function animation() {
+        if (isDragging) {
+            element.style.left = `${clientX - gameArea.getBoundingClientRect().left - offsetX}px`;
+            element.style.top = `${clientY - gameArea.getBoundingClientRect().top - offsetY}px`;
+            animationFrame = requestAnimationFrame(animation);
+        }
     }
 
     function dragEnd(e) {
+        isDragging = false;
+        cancelAnimationFrame(animationFrame);
+        
         if (e.type === 'mouseup') {
             document.removeEventListener('mousemove', dragMove);
             document.removeEventListener('mouseup', dragEnd);
@@ -166,12 +181,12 @@ function makeDraggable(element, fallInterval) {
 
         element.classList.remove('dragging');
 
-        const clientX = e.type === 'touchend' ? e.changedTouches[0].clientX : e.clientX;
-        const clientY = e.type === 'touchend' ? e.changedTouches[0].clientY : e.clientY;
+        const endClientX = e.type === 'touchend' ? e.changedTouches[0].clientX : e.clientX;
+        const endClientY = e.type === 'touchend' ? e.changedTouches[0].clientY : e.clientY;
 
-        const droppedBucket = getDroppedBucket(clientX, clientY);
+        const droppedBucket = getDroppedBucket(endClientX, endClientY);
         if (droppedBucket) {
-            handleDrop(element, droppedBucket.id.split('-')[0]);
+            handleDrop(element, droppedBucket);
         } else {
             endGame();
         }
@@ -192,9 +207,9 @@ function getDroppedBucket(x, y) {
     return null;
 }
 
-function handleDrop(element, bucketCategory) {
+function handleDrop(element, droppedBucket) {
+    const bucketCategory = droppedBucket.id.split('-')[0];
     const correctCategory = element.dataset.category.toLowerCase();
-    const droppedBucket = document.getElementById(`${bucketCategory}-bucket`);
 
     if (bucketCategory === correctCategory) {
         combo++;
