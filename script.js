@@ -30,96 +30,87 @@ let triggeredThresholds = {};
 
 const expenses = [
     // Needs
-    { name: "Rent", category: "Needs" },
-    { name: "Mortgage Payment", category: "Needs" },
-    { name: "Electricity Bill", category: "Needs" },
-    { name: "Water Bill", category: "Needs" },
-    { name: "Gas Bill", category: "Needs" },
-    { name: "Groceries", category: "Needs" },
-    { name: "Public Transport", category: "Needs" },
-    { name: "Car Fuel", category: "Needs" },
-    { name: "Car Insurance", category: "Needs" },
-    { name: "Health Insurance", category: "Needs" },
-    { name: "Prescription Medicine", category: "Needs" },
-    { name: "School Fees", category: "Needs" },
-    { name: "Childcare", category: "Needs" },
-    { name: "Internet Bill", category: "Needs" },
-    { name: "Phone Bill", category: "Needs" },
-    { name: "Student Loan Repayment", category: "Needs" },
-    { name: "Home Maintenance", category: "Needs" },
-    { name: "Essential Clothing", category: "Needs" },
-    { name: "Toiletries", category: "Needs" },
-    { name: "Pet Food", category: "Needs" },
-    { name: "Bus Fare", category: "Needs" },
-    { name: "Train Ticket", category: "Needs" },
-    { name: "Doctor's Visit", category: "Needs" },
-    { name: "Dental Check-up", category: "Needs" },
-    { name: "Basic Haircut", category: "Needs" },
-    { name: "Work Supplies", category: "Needs" },
-    { name: "Taxes", category: "Needs" },
-    { name: "Emergency Fund Contribution", category: "Needs" },
+    { name: "Rent", category: "Needs", explanation: "Housing is a basic need." },
+    { name: "Mortgage Payment", category: "Needs", explanation: "Housing is a basic need." },
+    { name: "Electricity Bill", category: "Needs", explanation: "Utilities are essential for daily living." },
+    { name: "Water Bill", category: "Needs", explanation: "Utilities are essential for daily living." },
+    { name: "Gas Bill", category: "Needs", explanation: "Utilities are essential for daily living." },
+    { name: "Groceries", category: "Needs", explanation: "Food is a basic necessity." },
+    { name: "Public Transport", category: "Needs", explanation: "Transportation for work or essential travel is a need." },
+    { name: "Car Fuel", category: "Needs", explanation: "Fuel for essential travel is a need." },
+    { name: "Car Insurance", category: "Needs", explanation: "Car insurance is a legal requirement in most places." },
+    { name: "Health Insurance", category: "Needs", explanation: "Health insurance is crucial for managing healthcare costs." },
+    { name: "Prescription Medicine", category: "Needs", explanation: "Essential medicine is a health need." },
+    { name: "School Fees", category: "Needs", explanation: "Education is a need for personal development." },
+    { name: "Childcare", category: "Needs", explanation: "Childcare is a need for working parents." },
+    { name: "Internet Bill", category: "Needs", explanation: "Internet access is often a need for work or school." },
+    { name: "Phone Bill", category: "Needs", explanation: "A phone is often a need for communication and safety." },
+    { name: "Student Loan Repayment", category: "Needs", explanation: "Repaying debt is a financial responsibility." },
+    { name: "Home Maintenance", category: "Needs", explanation: "Essential home repairs are a need." },
+    { name: "Essential Clothing", category: "Needs", explanation: "Basic clothing is a necessity." },
+    { name: "Toiletries", category: "Needs", explanation: "Personal hygiene products are a need." },
+    { name: "Pet Food", category: "Needs", explanation: "Food for pets is a need for their well-being." },
+    { name: "Bus Fare", category: "Needs", explanation: "Transportation for work or essential travel is a need." },
+    { name: "Train Ticket", category: "Needs", explanation: "Transportation for work or essential travel is a need." },
+    { name: "Doctor's Visit", category: "Needs", explanation: "Healthcare is a fundamental need." },
+    { name: "Dental Check-up", category: "Needs", explanation: "Dental care is important for overall health." },
+    { name: "Basic Haircut", category: "Needs", explanation: "Basic grooming is a need." },
+    { name: "Work Supplies", category: "Needs", explanation: "Supplies required for your job are a need." },
+    { name: "Taxes", category: "Needs", explanation: "Paying taxes is a legal obligation." },
+    { name: "Emergency Fund Contribution", category: "Needs", explanation: "Building an emergency fund is a critical financial need." },
 
     // Wants
-    { name: "Pizza", category: "Wants" },
-    { name: "Movie Ticket", category: "Wants" },
-    { name: "Fashion T-shirt", category: "Wants" },
-    { name: "New Smartphone", category: "Wants" },
-    { name: "Concert Tickets", category: "Wants" },
-    { name: "Dining Out", category: "Wants" },
-    { name: "Vacation Travel", category: "Wants" },
-    { name: "Designer Clothes", category: "Wants" },
-    { name: "Video Games", category: "Wants" },
-    { name: "Streaming Service (Netflix)", category: "Wants" },
-    { name: "Music Subscription (Spotify)", category: "Wants" },
-    { name: "Gym Membership (Leisure)", category: "Wants" },
-    { name: "Coffee Shop Visit", category: "Wants" },
-    { name: "Leisure Books", category: "Wants" },
-    { name: "Hobby Supplies", category: "Wants" },
-    { name: "New Gadget", category: "Wants" },
-    { name: "Spa Day", category: "Wants" },
-    { name: "Car Upgrade", category: "Wants" },
-    { name: "Jewelry", category: "Wants" },
-    { name: "Alcohol", category: "Wants" },
-    { name: "Tobacco", category: "Wants" },
-    { name: "Lottery Tickets", category: "Wants" },
-    { name: "Impulse Purchase", category: "Wants" },
-    { name: "Luxury Goods", category: "Wants" },
-    { name: "Takeaway Food", category: "Wants" },
-    { name: "Fashion Shoes", category: "Wants" },
-    { name: "Magazine Subscription", category: "Wants" },
-    { name: "Hair Dye", category: "Wants" },
-    { name: "Manicure/Pedicure", category: "Wants" },
-    { name: "Laptop Upgrade", category: "Wants" },
-    { name: "Home Decor", category: "Wants" },
-    { name: "Gifts (Non-essential)", category: "Wants" },
+    { name: "Pizza", category: "Wants", explanation: "Dining out or ordering takeout is a want, not a need." },
+    { name: "Movie Ticket", category: "Wants", explanation: "Entertainment is a want." },
+    { name: "Fashion T-shirt", category: "Wants", explanation: "Fashion clothing is a want, not a basic need." },
+    { name: "New Smartphone", category: "Wants", explanation: "Upgrading your phone is usually a want." },
+    { name: "Concert Tickets", category: "Wants", explanation: "Entertainment is a want." },
+    { name: "Dining Out", category: "Wants", explanation: "Eating at restaurants is a want." },
+    { name: "Vacation Travel", category: "Wants", explanation: "Leisure travel is a want." },
+    { name: "Designer Clothes", category: "Wants", explanation: "Luxury items are wants." },
+    { name: "Video Games", category: "Wants", explanation: "Entertainment is a want." },
+    { name: "Streaming Service (Netflix)", category: "Wants", explanation: "Subscription services for entertainment are wants." },
+    { name: "Music Subscription (Spotify)", category: "Wants", explanation: "Subscription services for entertainment are wants." },
+    { name: "Gym Membership (Leisure)", category: "Wants", explanation: "A gym membership for leisure is a want." },
+    { name: "Coffee Shop Visit", category: "Wants", explanation: "Buying coffee is a want." },
+    { name: "Leisure Books", category: "Wants", explanation: "Books for entertainment are a want." },
+    { name: "Hobby Supplies", category: "Wants", explanation: "Supplies for hobbies are wants." },
+    { name: "New Gadget", category: "Wants", explanation: "New gadgets are typically wants." },
+    { name: "Spa Day", category: "Wants", explanation: "Luxury experiences are wants." },
+    { name: "Car Upgrade", category: "Wants", explanation: "Upgrading your car is a want." },
+    { name: "Jewelry", category: "Wants", explanation: "Jewelry is a luxury item and a want." },
+    { name: "Alcohol", category: "Wants", explanation: "Alcohol is a want." },
+    { name: "Tobacco", category: "Wants", explanation: "Tobacco is a want." },
+    { name: "Lottery Tickets", category: "Wants", explanation: "Gambling is a want." },
+    { name: "Impulse Purchase", category: "Wants", explanation: "Impulse buys are wants." },
+    { name: "Luxury Goods", category: "Wants", explanation: "Luxury items are wants." },
+    { name: "Takeaway Food", category: "Wants", explanation: "Ordering takeaway is a want." },
+    { name: "Fashion Shoes", category: "Wants", explanation: "Fashion shoes are a want." },
+    { name: "Magazine Subscription", category: "Wants", explanation: "Magazine subscriptions are wants." },
+    { name: "Hair Dye", category: "Wants", explanation: "Cosmetic treatments are wants." },
+    { name: "Manicure/Pedicure", category: "Wants", explanation: "Cosmetic treatments are wants." },
+    { name: "Laptop Upgrade", category: "Wants", explanation: "Upgrading your laptop is usually a want." },
+    { name: "Home Decor", category: "Wants", explanation: "Decorative items for your home are wants." },
+    { name: "Gifts (Non-essential)", category: "Wants", explanation: "Non-essential gifts are wants." },
 
     // Savings
-    { name: "Savings Bond", category: "Savings" },
-    { name: "Stock Investment", category: "Savings" },
-    { name: "Mutual Fund", category: "Savings" },
-    { name: "SIP (Systematic Investment Plan)", category: "Savings" },
-    { name: "Retirement Fund", category: "Savings" },
-    { name: "College Fund", category: "Savings" },
-    { name: "Emergency Savings", category: "Savings" },
-    { name: "Fixed Deposit", category: "Savings" },
-    { name: "Real Estate Investment", category: "Savings" },
-    { name: "Gold Investment", category: "Savings" },
-    { name: "Cryptocurrency Investment", category: "Savings" },
-    { name: "High-Yield Savings Account", category: "Savings" },
-    { name: "Brokerage Account Contribution", category: "Savings" },
+    { name: "Savings Bond", category: "Savings", explanation: "Savings bonds are a form of investment." },
+    { name: "Stock Investment", category: "Savings", explanation: "Investing in stocks is a way to grow your money." },
+    { name: "Mutual Fund", category: "Savings", explanation: "Mutual funds are a type of investment." },
+    { name: "SIP (Systematic Investment Plan)", category: "Savings", explanation: "A SIP is a disciplined investment strategy." },
+    { name: "Retirement Fund", category: "Savings", explanation: "Saving for retirement is a long-term financial goal." },
+    { name: "College Fund", category: "Savings", explanation: "Saving for education is a long-term financial goal." },
+    { name: "Emergency Savings", category: "Savings", explanation: "Building an emergency fund is a crucial part of financial planning." },
+    { name: "Fixed Deposit", category: "Savings", explanation: "A fixed deposit is a safe investment option." },
+    { name: "Real Estate Investment", category: "Savings", explanation: "Investing in real estate is a long-term investment." },
+    { name: "Gold Investment", category: "Savings", explanation: "Gold is often considered a safe-haven asset." },
+    { name: "Cryptocurrency Investment", category: "Savings", explanation: "Cryptocurrencies are a high-risk, high-reward investment." },
+    { name: "High-Yield Savings Account", category: "Savings", explanation: "A high-yield savings account helps your money grow faster." },
+    { name: "Brokerage Account Contribution", category: "Savings", explanation: "Contributing to a brokerage account is a form of investment." },
 ];
-
-const slowTimePowerUp = document.getElementById('slow-time-power-up');
-const autoSortPowerUp = document.getElementById('auto-sort-power-up');
-const doublePointsPowerUp = document.getElementById('double-points-power-up');
 
 startButton.addEventListener('click', startGame);
 restartButton.addEventListener('click', startGame);
-slowTimePowerUp.addEventListener('click', activateSlowTime);
-autoSortPowerUp.addEventListener('click', activateAutoSort);
-doublePointsPowerUp.addEventListener('click', activateDoublePoints);
-
-let doublePointsActive = false;
 
 const midGamePopup = document.getElementById('mid-game-popup');
 const popupMessage = document.getElementById('popup-message');
@@ -247,7 +238,7 @@ function createExpense() {
             clearInterval(fallInterval);
             if(gameArea.contains(expenseElement)) {
                 gameArea.removeChild(expenseElement);
-                endGame();
+                endGame("You missed an expense!");
             }
         } else {
             topPosition += 5;
@@ -322,7 +313,7 @@ function makeDraggable(element, fallInterval) {
         if (droppedBucket) {
             handleDrop(element, droppedBucket);
         } else {
-            endGame();
+            endGame("You dropped an expense outside the buckets!");
         }
         // Apply bounce animation before removing
         element.classList.add('bounce-on-hit');
@@ -351,9 +342,14 @@ function getDroppedBucket(element) {
     return null;
 }
 
+const explanationDisplay = document.getElementById('explanation');
+
 function handleDrop(element, droppedBucket) {
     const bucketId = droppedBucket.id;
     const expenseCategory = element.dataset.category;
+    const expenseName = element.textContent;
+
+    const expense = expenses.find(e => e.name === expenseName);
 
     let correctBucketId = '';
     if (expenseCategory === 'Needs') {
@@ -369,14 +365,11 @@ function handleDrop(element, droppedBucket) {
         updateScore(10);
     } else {
         // Incorrect drop
-        endGame();
+        endGame(expense.explanation);
     }
 }
 
 function updateScore(change) {
-    if (doublePointsActive) {
-        change *= 2;
-    }
     score += change;
     scoreDisplay.textContent = score;
     scoreDisplay.classList.add('pulse-animation');
@@ -393,7 +386,7 @@ function updateScore(change) {
     });
 }
 
-function endGame() {
+function endGame(explanation) {
     clearTimeout(gameInterval);
 
     const existingExpenses = gameArea.querySelectorAll('.expense');
@@ -412,6 +405,7 @@ function endGame() {
     }
 
     finalScoreDisplay.textContent = score;
+    explanationDisplay.textContent = explanation;
     gameContainer.style.display = 'none';
     endScreen.style.display = 'block';
 }
