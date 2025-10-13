@@ -7,11 +7,18 @@ const gameContainer = document.getElementById('game-container');
 const scoreDisplay = document.getElementById('score');
 const levelDisplay = document.getElementById('level');
 const gameArea = document.getElementById('game-area');
+const endHighScoreDisplay = document.getElementById('end-high-score');
 
 let score = 0;
+let highScore = 0;
 let level = 1;
 let gameSpeed = 2000;
 let gameInterval;
+
+// Function to update high score display
+function updateHighScoreDisplay() {
+    endHighScoreDisplay.textContent = highScore;
+}
 
 const scoreThresholds = [
     { score: 30, message: "Amazing!" },
@@ -102,11 +109,63 @@ const expenses = [
     { name: "Brokerage Account Contribution", category: "Savings" },
 ];
 
+const slowTimePowerUp = document.getElementById('slow-time-power-up');
+const autoSortPowerUp = document.getElementById('auto-sort-power-up');
+const doublePointsPowerUp = document.getElementById('double-points-power-up');
+
 startButton.addEventListener('click', startGame);
 restartButton.addEventListener('click', startGame);
+slowTimePowerUp.addEventListener('click', activateSlowTime);
+autoSortPowerUp.addEventListener('click', activateAutoSort);
+doublePointsPowerUp.addEventListener('click', activateDoublePoints);
+
+let doublePointsActive = false;
 
 const midGamePopup = document.getElementById('mid-game-popup');
 const popupMessage = document.getElementById('popup-message');
+
+function activateDoublePoints() {
+    doublePointsPowerUp.disabled = true;
+    doublePointsActive = true;
+
+    setTimeout(() => {
+        doublePointsActive = false;
+        doublePointsPowerUp.disabled = false;
+    }, 5000); // 5 seconds duration
+}
+
+function activateAutoSort() {
+    autoSortPowerUp.disabled = true;
+    const existingExpenses = gameArea.querySelectorAll('.expense');
+    existingExpenses.forEach(expense => {
+        const category = expense.dataset.category;
+        let bucketId = '';
+        if (category === 'Needs') {
+            bucketId = 'needs-bucket';
+        } else if (category === 'Wants') {
+            bucketId = 'wants-bucket';
+        } else if (category === 'Savings') {
+            bucketId = 'savings-bucket';
+        }
+        const bucket = document.getElementById(bucketId);
+        handleDrop(expense, bucket);
+    });
+
+    setTimeout(() => {
+        autoSortPowerUp.disabled = false;
+    }, 10000); // 10 seconds duration
+}
+
+function activateSlowTime() {
+    slowTimePowerUp.disabled = true;
+    const originalGameSpeed = gameSpeed;
+    gameSpeed *= 2; // Slow down the game
+
+    setTimeout(() => {
+        gameSpeed = originalGameSpeed;
+        slowTimePowerUp.disabled = false;
+    }, 5000); // 5 seconds duration
+}
 
 function displayMidGamePopup(message) {
     popupMessage.textContent = message;
@@ -130,6 +189,10 @@ function startGame() {
     scoreDisplay.textContent = score;
     levelDisplay.textContent = level;
     triggeredThresholds = {}; // Reset for new game
+
+    // Load high score from local storage
+    highScore = localStorage.getItem("highScore") || 0;
+    updateHighScoreDisplay();
 
     startScreen.style.display = 'none';
     endScreen.style.display = 'none';
@@ -311,6 +374,9 @@ function handleDrop(element, droppedBucket) {
 }
 
 function updateScore(change) {
+    if (doublePointsActive) {
+        change *= 2;
+    }
     score += change;
     scoreDisplay.textContent = score;
     scoreDisplay.classList.add('pulse-animation');
@@ -337,6 +403,13 @@ function endGame() {
             gameArea.removeChild(expense);
         }
     });
+
+    // Check for new high score
+    if (score > highScore) {
+        highScore = score;
+        localStorage.setItem("highScore", highScore);
+        updateHighScoreDisplay();
+    }
 
     finalScoreDisplay.textContent = score;
     gameContainer.style.display = 'none';
