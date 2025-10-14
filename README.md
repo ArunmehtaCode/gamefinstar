@@ -17,11 +17,10 @@ As players progress, the speed increases and surprise pop-ups celebrate their mi
 
 | Action | Result |
 |--------|---------|
-| ✅ Correct drop | +5 points |
+| ✅ Correct drop | +10 points |
 | ❌ Wrong drop | Game Over |
 | ⚡ Combo streak | Score multiplier |
 | 🎉 Milestones | Pop-ups at 30, 50, 70, 100 points |
-| 🕹️ Power-ups | Slow Time, Auto-Sort, Double Points |
 
 ---
 
@@ -34,8 +33,7 @@ As players progress, the speed increases and surprise pop-ups celebrate their mi
   - 💚 Savings  
 - **Smooth drag-and-drop gameplay.**  
 - **3D animations & particle effects** for milestones and game over screen.  
-- **Encouragement pop-ups** like *“Amazing!”*, *“Fast Reactor!”*, *“Budget Master!”*.  
-- **Leaderboard** for tracking high scores.  
+- **Encouragement pop-ups** like *“Amazing!”*, *“Fast Reactor!”*, *“Budget Master!”*.    
 - **Educational twist:** teaches financial decision-making in a fun way.
 
 ---
