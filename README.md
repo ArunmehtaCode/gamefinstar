@@ -1,6 +1,6 @@
 # 💸 Budget Blitz
 
-**Budget Blitz** is a fast-paced, fun, and educational mobile-friendly game(mainly made for our gamified finance learning app FINSTAR) designed to help teens (14–19) learn the basics of **money management** — differentiating between **Needs**, **Wants**, and **Savings** — while playing an engaging, animated drag-and-drop challenge.
+**Budget Blitz** is a fast-paced, fun, and educational mobile-friendly game(mainly made to be integrated into our gamified finance learning app FINSTAR) designed to help teens (14–19) learn the basics of **money management** — differentiating between **Needs**, **Wants**, and **Savings** — while playing an engaging, animated drag-and-drop challenge.
 
 ---
 
